@@ -4,6 +4,10 @@
 namespace App\Model;
 
 
+/**
+ * Class ClassroomItem
+ * @package App\Model
+ */
 class ClassroomItem
 {
     /**

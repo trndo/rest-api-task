@@ -43,4 +43,11 @@ class ClassroomDataProvider implements ClassroomDataProviderInterface
 
         return ClassroomMapper::fromEntityToItem($classroom);
     }
+
+    public function getRowsCount(Request $request): int
+    {
+        return $this->classroomRepository->getTotalRowsCountByRequestParams(
+            $request->query
+        );
+    }
 }

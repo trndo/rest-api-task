@@ -7,8 +7,18 @@ namespace App\Mapper;
 use App\Entity\Classroom;
 use App\Model\ClassroomItem;
 
+/**
+ * Class ClassroomMapper
+ * @package App\Mapper
+ */
 class ClassroomMapper
 {
+    /**
+     * Transform entity to model ClassroomItem
+     *
+     * @param Classroom $classroom
+     * @return ClassroomItem
+     */
     public static function fromEntityToItem(Classroom $classroom): ClassroomItem
     {
         $item = new ClassroomItem();

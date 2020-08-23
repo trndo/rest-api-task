@@ -4,6 +4,10 @@
 namespace App\Model;
 
 
+/**
+ * Class ClassroomListResponse
+ * @package App\Model
+ */
 class ClassroomListResponse
 {
     /**
@@ -12,7 +16,7 @@ class ClassroomListResponse
     public $data;
 
     /**
-     * @var array
+     * @var Pagination
      */
     public $links;
 }

@@ -4,7 +4,9 @@
 namespace App\Controller\Command;
 
 
+use App\Exception\CustomValidatorException;
 use App\Model\ClassroomCreate;
+use App\Model\ClassroomIsActive;
 use App\Model\ClassroomUpdate;
 use App\Service\DataPersister\ClassroomDataPersisterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,9 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api/classrooms", name="classroom_")
+ * @Route("/api", name="classroom_")
  *
  * Class ClassroomController
  * @package App\Controller\Query
@@ -23,16 +26,30 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ClassroomController extends AbstractController
 {
     /**
-     * @Route("", name="create", methods={"POST"})
+     * @var ValidatorInterface
+     */
+    private $validator;
+    /**
+     * @var ClassroomDataPersisterInterface
+     */
+    private $classroomDataPersister;
+
+    public function __construct(
+        ValidatorInterface $validator,
+        ClassroomDataPersisterInterface $classroomDataPersister
+    ) {
+        $this->validator = $validator;
+        $this->classroomDataPersister = $classroomDataPersister;
+    }
+
+    /**
+     * Create classroom
      *
-     * @param Request $request
-     * @param ClassroomDataPersisterInterface $classroomDataPersister
-     * @param SerializerInterface $serializer
-     * @return JsonResponse
+     * @Route("/classrooms", name="create", methods={"POST"})
+     * @throws CustomValidatorException
      */
     public function create(
         Request $request,
-        ClassroomDataPersisterInterface $classroomDataPersister,
         SerializerInterface $serializer
     ): JsonResponse {
         /** @var ClassroomCreate $classroomCreateModel */
@@ -42,24 +59,28 @@ class ClassroomController extends AbstractController
             'json'
         );
 
-        $classroomDataPersister->create($classroomCreateModel);
+        $errors = $this->validator->validate($classroomCreateModel);
 
-        return new JsonResponse([], Response::HTTP_CREATED);
+        if ($errors->count() > 0) {
+            throw new CustomValidatorException($errors);
+        }
+
+        $this->classroomDataPersister->create($classroomCreateModel);
+
+        return new JsonResponse([
+            'status' => true
+        ], Response::HTTP_CREATED);
     }
 
     /**
-     * @Route("/{id}", name="update", methods={"PUT"})
+     * Update classroom
      *
-     * @param int $id
-     * @param Request $request
-     * @param ClassroomDataPersisterInterface $classroomDataPersister
-     * @param SerializerInterface $serializer
-     * @return JsonResponse
+     * @Route("/classrooms/{id}", name="update", methods={"PUT"})
+     * @throws CustomValidatorException
      */
     public function update(
         int $id,
         Request $request,
-        ClassroomDataPersisterInterface $classroomDataPersister,
         SerializerInterface $serializer
     ): JsonResponse {
         /** @var ClassroomUpdate $classroomUpdateModel */
@@ -69,40 +90,62 @@ class ClassroomController extends AbstractController
             'json'
         );
 
-        $classroomDataPersister->update($id, $classroomUpdateModel);
+        $errors = $this->validator->validate($classroomUpdateModel);
 
-        return new JsonResponse([], 200);
+        if ($errors->count() > 0) {
+            throw new CustomValidatorException($errors);
+        }
+
+        $this->classroomDataPersister->update($id, $classroomUpdateModel);
+
+        return new JsonResponse([
+            'status' => true
+        ], 200);
     }
 
     /**
-     * @Route("/{id}", name="remove", methods={"DELETE"})
+     * Delete classroom
      *
-     * @param int $id
-     * @param ClassroomDataPersisterInterface $classroomDataPersister
-     * @return JsonResponse
+     * @Route("/classrooms/{id}", name="remove", methods={"DELETE"})
      */
     public function remove(
-        int $id,
-        ClassroomDataPersisterInterface $classroomDataPersister
+        int $id
     ): JsonResponse {
-        $classroomDataPersister->remove($id);
+        $this->classroomDataPersister->remove($id);
 
-        return new JsonResponse([], Response::HTTP_NO_CONTENT);
+        return new JsonResponse([
+            'status' => true
+        ], Response::HTTP_NO_CONTENT);
     }
 
     /**
-     * @Route("/{id}/toggle-is-active", methods={"PATCH"})
+     * Update classroom isActive status
      *
-     * @param int $id
-     * @param ClassroomDataPersisterInterface $classroomDataPersister
-     * @return JsonResponse
+     * @Route("/classrooms/{id}/activation", name="activation", methods={"PATCH"})
+     * @throws CustomValidatorException
      */
-    public function toggleIsActive(
+    public function updateActivation(
         int $id,
-        ClassroomDataPersisterInterface $classroomDataPersister
+        Request $request,
+        SerializerInterface $serializer
     ): JsonResponse {
-        $classroomDataPersister->toggleIsActive($id);
+        /** @var ClassroomIsActive $classroomIsActiveUpdateModel */
+        $classroomIsActiveUpdateModel = $serializer->deserialize(
+            $request->getContent(),
+            ClassroomIsActive::class,
+            'json'
+        );
 
-        return new JsonResponse([], Response::HTTP_OK);
+        $errors = $this->validator->validate($classroomIsActiveUpdateModel);
+
+        if ($errors->count() > 0) {
+            throw new CustomValidatorException($errors);
+        }
+
+        $this->classroomDataPersister->updateIsActive($id, $classroomIsActiveUpdateModel);
+
+        return new JsonResponse([
+            'status' => true
+        ], Response::HTTP_OK);
     }
 }

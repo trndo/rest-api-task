@@ -6,6 +6,7 @@ namespace App\Service\DataPersister\Doctrine;
 
 use App\Entity\Classroom;
 use App\Model\ClassroomCreate;
+use App\Model\ClassroomIsActive;
 use App\Model\ClassroomUpdate;
 use App\Service\DataPersister\ClassroomDataPersisterInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,10 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
 
     private $classroomRepository;
 
+    /**
+     * ClassroomDataPersister constructor.
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -27,6 +32,10 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
         );
     }
 
+    /**
+     * @inheritDoc
+     * @param ClassroomCreate $classroomCreate
+     */
     public function create(ClassroomCreate $classroomCreate): void
     {
         $classroom = new Classroom();
@@ -38,6 +47,11 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
         $this->entityManager->flush();
     }
 
+    /**
+     * @inheritDoc
+     * @param int $id
+     * @param ClassroomUpdate $classroomUpdate
+     */
     public function update(int $id, ClassroomUpdate $classroomUpdate): void
     {
         /** @var Classroom $classroom */
@@ -49,6 +63,10 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
         $this->entityManager->flush();
     }
 
+    /**
+     * @inheritDoc
+     * @param int $id
+     */
     public function remove(int $id): void
     {
         /** @var Classroom $classroom */
@@ -58,12 +76,17 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
         $this->entityManager->flush();
     }
 
-    public function toggleIsActive(int $id): void
+    /**
+     * @inheritDoc
+     * @param int $id
+     * @param ClassroomUpdate $classroomUpdate
+     */
+    public function updateIsActive(int $id, ClassroomIsActive $classroomUpdate): void
     {
         /** @var Classroom $classroom */
         $classroom = $this->classroomRepository->findById($id);
 
-        $classroom->setIsActive(!$classroom->getIsActive());
+        $classroom->setIsActive($classroomUpdate->isActive);
 
         $this->entityManager->flush();
     }
