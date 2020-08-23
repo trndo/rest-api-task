@@ -6,11 +6,23 @@ namespace App\Model;
 
 class Pagination
 {
-    public $firs;
+    /**
+     * @var string
+     */
+    public $first;
 
+    /**
+     * @var string
+     */
     public $last;
 
+    /**
+     * @var string
+     */
     public $prev;
 
+    /**
+     * @var string
+     */
     public $next;
 }
