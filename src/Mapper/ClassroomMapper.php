@@ -15,9 +15,6 @@ class ClassroomMapper
 {
     /**
      * Transform entity to model ClassroomItem
-     *
-     * @param Classroom $classroom
-     * @return ClassroomItem
      */
     public static function fromEntityToItem(Classroom $classroom): ClassroomItem
     {
