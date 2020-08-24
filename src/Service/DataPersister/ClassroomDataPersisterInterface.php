@@ -4,10 +4,11 @@
 namespace App\Service\DataPersister;
 
 
-use App\Model\ClassroomCreate;
-use App\Model\ClassroomIsActive;
-use App\Model\ClassroomItem;
-use App\Model\ClassroomUpdate;
+use App\Model\Classroom\{
+    ClassroomCreate,
+    ClassroomIsActive,
+    ClassroomUpdate
+};
 
 /**
  * Interface ClassroomDataPersisterInterface

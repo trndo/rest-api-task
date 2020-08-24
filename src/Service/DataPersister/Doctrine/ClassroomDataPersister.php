@@ -5,9 +5,7 @@ namespace App\Service\DataPersister\Doctrine;
 
 
 use App\Entity\Classroom;
-use App\Model\ClassroomCreate;
-use App\Model\ClassroomIsActive;
-use App\Model\ClassroomUpdate;
+use App\Model\Classroom\{ClassroomCreate, ClassroomIsActive, ClassroomUpdate};
 use App\Service\DataPersister\ClassroomDataPersisterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 

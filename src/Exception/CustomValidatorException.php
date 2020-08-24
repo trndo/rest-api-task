@@ -29,7 +29,10 @@ class CustomValidatorException extends \Exception
         }
     }
 
-    public function getValidatiorMessages(): array
+    /**
+     * Return validator messages
+     */
+    public function getValidatorMessages(): array
     {
         return $this->messages;
     }

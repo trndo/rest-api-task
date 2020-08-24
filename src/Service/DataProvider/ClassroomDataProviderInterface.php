@@ -4,7 +4,7 @@
 namespace App\Service\DataProvider;
 
 
-use App\Model\ClassroomItem;
+use App\Model\Classroom\ClassroomItem;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

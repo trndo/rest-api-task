@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model;
+namespace App\Model\Classroom;
 
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,8 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ClassroomCreate
 {
     /**
-     * @Assert\NotNull(message="Field name can not be null")
-     * @Assert\NotBlank(message="Filed name is required")
+     * @Assert\NotBlank(message="Field name is required")
      * @Assert\Length(
      *     max="255",
      *     maxMessage="Field name is more than {{ limit }} !"
@@ -25,6 +24,7 @@ class ClassroomCreate
 
     /**
      * @Assert\Type(type="bool", message="Filed must be bool")
+     * @Assert\NotNull(message="Field isActive is required")
      * @var string
      */
     public $isActive;

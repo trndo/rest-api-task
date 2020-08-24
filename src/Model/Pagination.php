@@ -4,6 +4,8 @@
 namespace App\Model;
 
 
+use Symfony\Component\Routing\Generator\UrlGenerator;
+
 class Pagination
 {
     /**

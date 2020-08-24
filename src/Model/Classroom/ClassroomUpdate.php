@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model;
+namespace App\Model\Classroom;
 
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,13 +13,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ClassroomUpdate
 {
     /**
-     * @Assert\NotBlank(message="Field name can not be null")
+     * @Assert\NotBlank(message="Field name is required")
      * @var string
      */
     public $name;
 
     /**
-     * @Assert\Type(type="bool", message="Filed must be bool")
+     * @Assert\Type(type="bool", message="Filed isActive must be bool")
+     * @Assert\NotNull(message="Field isActive is required")
      * @var bool
      */
     public $isActive;

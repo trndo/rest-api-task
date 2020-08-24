@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Classroom;
+use App\Model\Pagination;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\QueryBuilder;
@@ -36,7 +37,7 @@ class ClassroomRepository extends ServiceEntityRepository
 
         if (null === $classroom) {
             throw new EntityNotFoundException(
-                'Entity with id = ' . $id . 'not found'
+                'Entity with id = ' . $id . ' not found'
             );
         }
 
@@ -45,14 +46,11 @@ class ClassroomRepository extends ServiceEntityRepository
 
     /**
      * Find all classrooms by request params with pagination
-     *
-     * @param ParameterBag $parameterBag
-     * @return array
      */
     public function findAllByRequestParams(ParameterBag $parameterBag): Paginator
     {
-        $count = $parameterBag->get('count', 10);
-        $page = $parameterBag->get('page', 1);
+        $count = $parameterBag->getInt('count', 10);
+        $page = $parameterBag->getInt('page', 1);
 
         $qb = $this->createQueryBuilder('c')
             ->orderBy('c.createdAt', 'DESC');
@@ -60,6 +58,20 @@ class ClassroomRepository extends ServiceEntityRepository
         $this->addPaging($qb, $page, $count);
 
         return new Paginator($qb->getQuery(), false);
+    }
+
+    /**
+     * Get classrooms count
+     *
+     * @param ParameterBag $parameterBag
+     * @return int
+     */
+    public function getTotalRowsCountByRequestParams(
+        ParameterBag $parameterBag
+    ): int {
+        $paginator = $this->findAllByRequestParams($parameterBag);
+
+        return $paginator->count();
     }
 
     /**
@@ -82,12 +94,4 @@ class ClassroomRepository extends ServiceEntityRepository
             $qb->setMaxResults($count);
         }
     }
-
-    public function getTotalRowsCountByRequestParams(ParameterBag $parameterBag): int
-    {
-        $paginator = $this->findAllByRequestParams($parameterBag);
-
-        return $paginator->count();
-    }
-
 }

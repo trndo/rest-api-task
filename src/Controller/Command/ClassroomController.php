@@ -5,14 +5,10 @@ namespace App\Controller\Command;
 
 
 use App\Exception\CustomValidatorException;
-use App\Model\ClassroomCreate;
-use App\Model\ClassroomIsActive;
-use App\Model\ClassroomUpdate;
+use App\Model\Classroom\{ClassroomCreate, ClassroomIsActive, ClassroomUpdate};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use App\Service\DataPersister\ClassroomDataPersisterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;

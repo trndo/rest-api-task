@@ -5,7 +5,7 @@ namespace App\Mapper;
 
 
 use App\Entity\Classroom;
-use App\Model\ClassroomItem;
+use App\Model\Classroom\ClassroomItem;
 
 /**
  * Class ClassroomMapper

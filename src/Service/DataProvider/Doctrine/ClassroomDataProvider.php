@@ -6,7 +6,7 @@ namespace App\Service\DataProvider\Doctrine;
 
 use App\Entity\Classroom;
 use App\Mapper\ClassroomMapper;
-use App\Model\ClassroomItem;
+use App\Model\Classroom\ClassroomItem;
 use App\Repository\ClassroomRepository;
 use App\Service\DataProvider\ClassroomDataProviderInterface;
 use Symfony\Component\HttpFoundation\Request;

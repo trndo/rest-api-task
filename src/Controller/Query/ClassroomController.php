@@ -4,12 +4,11 @@
 namespace App\Controller\Query;
 
 
-use App\Model\ClassroomListResponse;
+use App\Model\Classroom\ClassroomListResponse;
 use App\Service\DataProvider\ClassroomDataProviderInterface;
+use App\Service\PaginatorService\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -26,13 +25,21 @@ class ClassroomController extends AbstractController
      */
     public function index(
         Request $request,
-        ClassroomDataProviderInterface $classroomDataProvider
+        ClassroomDataProviderInterface $classroomDataProvider,
+        Paginator $paginator
     ): JsonResponse {
-        $classroomsItems = $classroomDataProvider->fetchAll($request);
-        $classroomsCount = $classroomDataProvider->getRowsCount($request);
-
         $response = new ClassroomListResponse();
+
+        $classroomsItems = $classroomDataProvider->fetchAll($request);
+        $classroomsTotalRows = $classroomDataProvider->getRowsCount($request);
+
         $response->data = $classroomsItems;
+        $response->links = $paginator->createPagination(
+            $request->query->getInt('count', 10),
+            $request->query->getInt('page', 1),
+            $classroomsTotalRows,
+            'classroom_index'
+        );
 
         return new JsonResponse($response, Response::HTTP_OK);
     }
