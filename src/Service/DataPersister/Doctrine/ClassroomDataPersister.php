@@ -18,10 +18,6 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
 
     private $classroomRepository;
 
-    /**
-     * ClassroomDataPersister constructor.
-     * @param EntityManagerInterface $entityManager
-     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -47,8 +43,6 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
 
     /**
      * @inheritDoc
-     * @param int $id
-     * @param ClassroomUpdate $classroomUpdate
      */
     public function update(int $id, ClassroomUpdate $classroomUpdate): void
     {
@@ -63,7 +57,6 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
 
     /**
      * @inheritDoc
-     * @param int $id
      */
     public function remove(int $id): void
     {
@@ -76,8 +69,6 @@ class ClassroomDataPersister implements ClassroomDataPersisterInterface
 
     /**
      * @inheritDoc
-     * @param int $id
-     * @param ClassroomUpdate $classroomUpdate
      */
     public function updateIsActive(int $id, ClassroomIsActive $classroomUpdate): void
     {

@@ -55,8 +55,6 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
             $response = new JsonResponse([
                 'errors' => $exception->getValidatorMessages()
             ], Response::HTTP_BAD_REQUEST);
-
-            $event->setResponse($response);
         }
 
         $event->setResponse($response);

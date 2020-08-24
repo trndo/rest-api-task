@@ -96,7 +96,7 @@ class ClassroomController extends AbstractController
 
         return new JsonResponse([
             'status' => true
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     /**

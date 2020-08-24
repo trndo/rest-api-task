@@ -23,6 +23,9 @@ class ClassroomDataProvider implements ClassroomDataProviderInterface
         $this->classroomRepository = $classroomRepository;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function fetchAll(Request $request): ?array
     {
         $classroomItems = [];
@@ -37,6 +40,9 @@ class ClassroomDataProvider implements ClassroomDataProviderInterface
         return $classroomItems;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function get(int $id): ?ClassroomItem
     {
         $classroom = $this->classroomRepository->findById($id);
@@ -44,6 +50,9 @@ class ClassroomDataProvider implements ClassroomDataProviderInterface
         return ClassroomMapper::fromEntityToItem($classroom);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getRowsCount(Request $request): int
     {
         return $this->classroomRepository->getTotalRowsCountByRequestParams(

@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Classroom;
-use App\Model\Pagination;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\QueryBuilder;
@@ -26,10 +25,6 @@ class ClassroomRepository extends ServiceEntityRepository
 
     /**
      * Find classroom by id
-     *
-     * @param int $id
-     * @return Classroom
-     * @throws EntityNotFoundException
      */
     public function findById(int $id): Classroom
     {
@@ -62,9 +57,6 @@ class ClassroomRepository extends ServiceEntityRepository
 
     /**
      * Get classrooms count
-     *
-     * @param ParameterBag $parameterBag
-     * @return int
      */
     public function getTotalRowsCountByRequestParams(
         ParameterBag $parameterBag
@@ -76,10 +68,6 @@ class ClassroomRepository extends ServiceEntityRepository
 
     /**
      * Adding pagination method
-     *
-     * @param QueryBuilder $qb
-     * @param int $page
-     * @param int $count
      */
     private function addPaging(
         QueryBuilder $qb,
